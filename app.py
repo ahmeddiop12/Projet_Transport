@@ -391,10 +391,7 @@ def health():
     }
 
 # ── Frontend Statique ──────────────────────────────────────────
-frontend_dir = Path(__file__).parent.parent / "frontend"
-if frontend_dir.exists():
-    app.mount("/static", StaticFiles(directory=str(frontend_dir), html=True), name="frontend")
-
+app.mount("/static", StaticFiles(directory=Path(__file__).parent / "static"), name="static")
 # ── Lancement ─────────────────────────────────────────────────
 if __name__ == "__main__":
     import uvicorn
