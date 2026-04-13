@@ -391,7 +391,30 @@ def health():
     }
 
 # ── Frontend Statique ──────────────────────────────────────────
-app.mount("/static", StaticFiles(directory=Path(__file__).parent / "static"), name="static")
+# ── Frontend Statique ──────────────────────────────────────────
+static_dir = Path(__file__).parent / "static"
+if static_dir.exists():
+    app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
+
+@app.get("/")
+def root():
+    return FileResponse(Path(__file__).parent / "static" / "index.html")
+
+@app.get("/assistant")
+def page_assistant():
+    return FileResponse(Path(__file__).parent / "static" / "assistant.html")
+
+@app.get("/vehicules-page")
+def page_vehicules():
+    return FileResponse(Path(__file__).parent / "static" / "vehicules.html")
+
+@app.get("/chauffeurs-page")
+def page_chauffeurs():
+    return FileResponse(Path(__file__).parent / "static" / "chauffeurs.html")
+
+@app.get("/incidents-page")
+def page_incidents():
+    return FileResponse(Path(__file__).parent / "static" / "incidents.html")
 # ── Lancement ─────────────────────────────────────────────────
 if __name__ == "__main__":
     import uvicorn
