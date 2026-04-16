@@ -20,13 +20,14 @@ async function loadDashboard() {
     document.getElementById('k-chauffeurs').textContent  = stats.chauffeurs_dispo || 0;
     document.getElementById('k-recette').textContent    = (stats.recette_totale || 0).toLocaleString('fr-FR');
     
-    // 2. Trajets Récents
-    const trajets = await fetch(API + '/api/trajets/recent?limit=8').then(r => r.json());
-    document.getElementById('recent-trajets').innerHTML = `
+    const trajetsRaw = await fetch(API + '/api/trajets/recent?limit=8').then(r => r.json());
+    const trajets = Array.from(new Map(trajetsRaw.map(t => [t.id, t])).values());
+    const tableTrajets = document.getElementById('recent-trajets');
+    tableTrajets.innerHTML = `
       <table><thead><tr>${trajetsCols.map(c => `<th>${c}</th>`).join('')}</tr></thead>
       <tbody>${trajets.map(t => `
         <tr class="animate-row">
-          <td><strong>${t.ligne_code}</strong><br><small style="color:var(--muted)">${t.origine} → ${t.destination}</small></td>
+          <td><strong>${t.ligne_code}</strong><br><small>${t.origine} → ${t.destination}</small></td>
           <td>${t.chauffeur}</td>
           <td>${fmtDate(t.date_heure_depart)}</td>
           <td>${t.nb_passagers}</td>
@@ -35,15 +36,18 @@ async function loadDashboard() {
       </tbody></table>`;
     
     // 3. Incidents non résolus
-    const incidents = await fetch(API + '/api/incidents?resolu=false').then(r => r.json());
+    const incidentsRaw = await fetch(API + '/api/incidents?resolu=false').then(r => r.json());
+    const incidents = Array.from(new Map(incidentsRaw.map(i => [i.id, i])).values());
+
+    const tableIncidents = document.getElementById('open-incidents');
     if (incidents.length === 0) {
-      document.getElementById('open-incidents').innerHTML = '<p style="color:var(--success);text-align:center;padding:2rem">✅ Aucun incident ouvert</p>';
+      tableIncidents.innerHTML = '<p style="color:var(--success);text-align:center;padding:2rem">✅ Aucun incident ouvert</p>';
     } else {
-      document.getElementById('open-incidents').innerHTML = `
+      tableIncidents.innerHTML = `
         <table><thead><tr>${incidentsCols.map(c => `<th>${c}</th>`).join('')}</tr></thead>
         <tbody>${incidents.map(i => `
           <tr class="animate-row">
-            <td>${badge(i.type)}<br><small style="color:var(--muted)">${(i.description||'').substring(0,40)}...</small></td>
+            <td>${badge(i.type)}<br><small>${(i.description||'').substring(0,30)}...</small></td>
             <td>${badge(i.gravite)}</td>
             <td>${i.chauffeur}</td>
             <td>${fmtDate(i.date_incident)}</td>
@@ -51,13 +55,10 @@ async function loadDashboard() {
         </tbody></table>`;
     }
 
-    // 4. Graphiques dynamiques (Charts)
     renderCharts();
 
   } catch (err) {
     console.error('Dashboard error:', err);
-    document.getElementById('recent-trajets').innerHTML = `<p style="color:var(--danger)">Erreur.</p>`;
-    document.getElementById('open-incidents').innerHTML = `<p style="color:var(--danger)">Erreur.</p>`;
   }
 }
 
