@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TranspoBot — Tableau de bord</title>
+  <link rel="icon" href="logo.jfif">
+  <link rel="stylesheet" href="static/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+
+   <header>
+    <a href="/" class="header-brand">
+      <span class="logo">🚌</span>
+      <div>
+        <h1>TranspoBot</h1>
+        <small>Assistant IA — Gestion de Transport Urbain</small>
+      </div>
+    </a>
+    <nav class="header-nav">
+      <a href="/" class="nav-btn active">📊 Tableau de bord</a>
+      <a href="/assistant" class="nav-btn">💬 Assistant IA</a>
+      <a href="/vehicules-page" class="nav-btn">🚌 Véhicules</a>
+      <a href="/chauffeurs-page" class="nav-btn">👤 Chauffeurs</a>
+      <a href="/incidents-page" class="nav-btn">⚠️ Incidents</a>
+      <button class="theme-toggle nav-btn" onclick="toggleTheme()" id="theme-btn" title="Changer le thème">🌙</button>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="dashboard-grid" id="kpis">
+      <div class="kpi-card">
+        <div class="kpi-val" id="k-total">—</div>
+        <div class="kpi-lbl">Trajets terminés</div>
+      </div>
+      <div class="kpi-card success">
+        <div class="kpi-val" id="k-encours">—</div>
+        <div class="kpi-lbl">En cours</div>
+      </div>
+      <div class="kpi-card warning">
+        <div class="kpi-val" id="k-maintenance">—</div>
+        <div class="kpi-lbl">Véh. maintenance</div>
+      </div>
+      <div class="kpi-card danger">
+        <div class="kpi-val" id="k-incidents">—</div>
+        <div class="kpi-lbl">Incidents ouverts</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val" id="k-chauffeurs">—</div>
+        <div class="kpi-lbl">Chauffeurs disponibles</div>
+      </div>
+      <div class="kpi-card success">
+        <div class="kpi-val" id="k-recette" style="font-size:1.3rem">—</div>
+        <div class="kpi-lbl">Recette totale (FCFA)</div>
+      </div>
+    </div>
+
+    <div
+      style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 2.5rem;">
+      <div class="card animate-row" style="animation-delay: 0.1s;">
+        <div class="card-title">🚐 État de la Flotte</div>
+        <div style="position:relative; height:250px; width:100%; margin: 0 auto;">
+          <canvas id="vehiculesChart"></canvas>
+        </div>
+      </div>
+      <div class="card animate-row" style="animation-delay: 0.2s;">
+        <div class="card-title">⚖️ Bilan des Incidents</div>
+        <div style="position:relative; height:250px; width:100%; margin: 0 auto;">
+          <canvas id="incidentsChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-main animate-row" style="animation-delay: 0.3s;">
+      <div class="card">
+        <div class="card-title">🕒 Trajets récents</div>
+        <div class="table-wrap" id="recent-trajets">
+          <div class="loading"><span class="spinner"></span> Chargement...</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">⚠️ Incidents non résolus</div>
+        <div class="table-wrap" id="open-incidents">
+          <div class="loading"><span class="spinner"></span> Chargement...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="static/js/global.js?v=2"></script>
+  <script src="static/js/dashboard.js?v=2"></script>
+</body>
+
+</html>
