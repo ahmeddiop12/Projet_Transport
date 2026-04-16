@@ -118,11 +118,11 @@ def page_incidents():
     return FileResponse(Path(__file__).parent / "static" / "incidents.html")
 @app.get("/lignes-page")
 def lignes_page():
-    return FileResponse("lignes.html") 
+    return FileResponse(Path(__file__).parent / "static" / "lignes.html")
 
 @app.get("/tarifs-page")
 def tarifs_page():
-    return FileResponse("tarifs.html")
+    return FileResponse(Path(__file__).parent / "static" / "tarifs.html")
 
 # ── API ────────────────────────────────────────────────────────
 @app.post("/api/chat")
