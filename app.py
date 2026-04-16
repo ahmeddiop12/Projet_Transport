@@ -185,7 +185,7 @@ def get_chauffeurs():
 @app.get("/api/trajets/recent")
 def get_trajets_recent(limit: int = 20):
     return execute_query(f"""
-        SELECT t.id, t.date_heure_depart, t.date_heure_arrivee,
+        SELECT DISTINCT t.id, t.date_heure_depart, t.date_heure_arrivee,
                t.statut, t.nb_passagers, t.recette,
                l.code AS ligne_code, l.nom AS ligne_nom, l.origine, l.destination,
                CONCAT(c.prenom,' ',c.nom) AS chauffeur,
@@ -204,7 +204,7 @@ def get_incidents(resolu: Optional[bool] = None, gravite: Optional[str] = None):
     if gravite: conditions.append(f"i.gravite='{gravite}'")
     where = "WHERE " + " AND ".join(conditions) if conditions else ""
     return execute_query(f"""
-        SELECT i.id, i.type, i.description, i.gravite,
+        SELECT DISTINCT i.id, i.type, i.description, i.gravite,
                i.date_incident, i.resolu, i.cout_reparation,
                l.nom AS ligne, CONCAT(c.prenom,' ',c.nom) AS chauffeur, v.immatriculation
         FROM incidents i
