@@ -116,6 +116,13 @@ def page_chauffeurs():
 @app.get("/incidents-page")
 def page_incidents():
     return FileResponse(Path(__file__).parent / "static" / "incidents.html")
+@app.get("/lignes-page")
+def lignes_page():
+    return FileResponse("lignes.html") 
+
+@app.get("/tarifs-page")
+def tarifs_page():
+    return FileResponse("tarifs.html")
 
 # ── API ────────────────────────────────────────────────────────
 @app.post("/api/chat")
