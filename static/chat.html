@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TranspoBot — Assistant IA</title>
+  <link rel="icon" href="static/logo.jfif">
+  <link rel="stylesheet" href="static/css/style.css?v=639119581592030713">
+  <link rel="stylesheet" href="static/css/chat.css">
+</head>
+
+<body>
+
+  <header>
+    <a href="/" class="header-brand">
+      <span class="logo">🚌</span>
+      <div>
+        <h1>TranspoBot</h1>
+        <small>Assistant IA — Gestion de Transport Urbain</small>
+      </div>
+    </a>
+    <nav class="header-nav">
+      <a href="/" class="nav-btn">📊 Tableau de bord</a>
+      <a href="/assistant" class="nav-btn  active">💬 Assistant IA</a>
+      <a href="/vehicules-page" class="nav-btn">🚌 Véhicules</a>
+      <a href="/lignes-page" class="nav-btn">🗺️ Lignes</a>
+      <a href="/tarifs-page" class="nav-btn">💵 Tarifs</a>
+      <a href="/chauffeurs-page" class="nav-btn">👤 Chauffeurs</a>
+      <a href="/incidents-page" class="nav-btn">⚠️ Incidents</a>
+      <button class="theme-toggle nav-btn" onclick="toggleTheme()" id="theme-btn" title="Changer le thème">🌙</button>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="chat-layout">
+      <!-- Chat -->
+      <div class="card">
+        <div class="card-title">💬 Assistant TranspoBot</div>
+        <div class="suggestions">
+          <button class="sugg-btn" onclick="ask('Combien de trajets ont été effectués cette semaine ?')">Trajets cette
+            semaine</button>
+          <button class="sugg-btn" onclick="ask('Quel chauffeur a le plus de trajets ?')">Meilleur chauffeur</button>
+          <button class="sugg-btn" onclick="ask('Quels véhicules sont en maintenance ?')">Véhicules maintenance</button>
+          <button class="sugg-btn" onclick="ask('Liste les incidents graves non résolus')">Incidents graves</button>
+          <button class="sugg-btn" onclick="ask('Quelle est la recette totale du mois de mars 2026 ?')">Recette mars
+            2026</button>
+          <button class="sugg-btn" onclick="ask('Quel est le taux de remplissage moyen par ligne ?')">Taux
+            remplissage</button>
+          <button class="sugg-btn" onclick="ask('Quels chauffeurs ont eu des incidents ce mois ?')">Incidents
+            chauffeurs</button>
+        </div>
+
+        <div class="chat-box" id="chat-box">
+          <div class="msg bot">
+            <div class="bubble">👋 Bonjour ! Je suis <strong>TranspoBot</strong>, votre assistant IA.<br>
+              Posez-moi n'importe quelle question sur votre flotte, vos trajets, vos chauffeurs ou vos incidents en
+              <strong>langage naturel</strong>.
+            </div>
+            <span class="msg-time">Maintenant</span>
+          </div>
+        </div>
+
+        <div class="chat-input-row">
+          <input type="text" id="user-input" placeholder="Ex : Combien de trajets ce mois-ci ?"
+            onkeypress="if(event.key==='Enter') sendMessage()">
+          <button class="btn-send" id="send-btn" onclick="sendMessage()">Envoyer ➤</button>
+        </div>
+      </div>
+
+      <!-- Résultats SQL -->
+      <div class="card">
+        <div class="card-title">📋 Résultats de la requête</div>
+        <div id="results-panel">
+          <p style="color:var(--muted);font-size:0.88rem;padding:2rem 0;text-align:center">
+            Les résultats de vos questions apparaîtront ici.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="static/js/global.js?v=639119581592030713"></script>
+  <script src="static/js/chat.js?v=3"></script>
+</body>
+
+</html>

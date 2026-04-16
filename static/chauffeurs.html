@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TranspoBot — Chauffeurs</title>
+  <link rel="icon" href="static/logo.jfif">
+  <link rel="stylesheet" href="static/css/style.css?v=639119581592030713">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+
+  <header>
+    <a href="/" class="header-brand">
+      <span class="logo">🚌</span>
+      <div>
+        <h1>TranspoBot</h1>
+        <small>Assistant IA — Gestion de Transport Urbain</small>
+      </div>
+    </a>
+    <nav class="header-nav">
+      <a href="/" class="nav-btn ">📊 Tableau de bord</a>
+      <a href="/assistant" class="nav-btn">💬 Assistant IA</a>
+      <a href="/vehicules-page" class="nav-btn">🚌 Véhicules</a>
+      <a href="/lignes-page" class="nav-btn">🗺️ Lignes</a>
+      <a href="/tarifs-page" class="nav-btn">💵 Tarifs</a>
+      <a href="/chauffeurs-page" class="nav-btn  active">👤 Chauffeurs</a>
+      <a href="/incidents-page" class="nav-btn">⚠️ Incidents</a>
+      <button class="theme-toggle nav-btn" onclick="toggleTheme()" id="theme-btn" title="Changer le thème">🌙</button>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="card animate-row" style="margin-bottom: 2.5rem; animation-delay: 0.1s;">
+      <div class="card-title">🏆 Classement par Ancienneté des Chauffeurs</div>
+      <div style="position:relative; height:350px; width:100%; margin: 0 auto;">
+        <canvas id="ancienneteChart"></canvas>
+      </div>
+    </div>
+
+    <div class="card animate-row" style="animation-delay: 0.2s;">
+      <div class="card-title">👤 Chauffeurs</div>
+      <div class="table-wrap" id="chauffeurs-table">
+        <div class="loading"><span class="spinner"></span> Chargement...</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="static/js/global.js?v=639119581592030713"></script>
+  <script src="static/js/chauffeurs.js?v=3"></script>
+</body>
+
+</html>
