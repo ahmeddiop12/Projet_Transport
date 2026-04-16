@@ -214,6 +214,25 @@ def get_incidents(resolu: Optional[bool] = None, gravite: Optional[str] = None):
         JOIN vehicules v ON t.vehicule_id=v.id
         {where} ORDER BY i.date_incident DESC LIMIT 50
     """)
+@app.get("/api/lignes")
+def get_lignes():
+    return execute_query("""
+        SELECT l.*, COALESCE(AVG(ta.prix), 0) AS tarif_moyen
+        FROM lignes l
+        LEFT JOIN tarifs ta ON l.id = ta.ligne_id
+        GROUP BY l.id
+        ORDER BY l.code
+    """)
+
+@app.get("/api/tarifs")
+def get_tarifs():
+    return execute_query("""
+        SELECT t.id, t.type_client, t.prix,
+               l.nom AS ligne_nom, l.code AS ligne_code
+        FROM tarifs t
+        JOIN lignes l ON t.ligne_id = l.id
+        ORDER BY l.nom, t.type_client
+    """)
 
 @app.get("/api/maintenance")
 def get_maintenance():
