@@ -184,6 +184,7 @@ def get_chauffeurs():
 
 @app.get("/api/trajets/recent")
 def get_trajets_recent(limit: int = 20):
+    # DISTINCT t.id empêche les doublons si un trajet a plusieurs incidents
     return execute_query(f"""
         SELECT DISTINCT t.id, t.date_heure_depart, t.date_heure_arrivee,
                t.statut, t.nb_passagers, t.recette,
@@ -203,6 +204,7 @@ def get_incidents(resolu: Optional[bool] = None, gravite: Optional[str] = None):
     if resolu is not None: conditions.append(f"i.resolu={'TRUE' if resolu else 'FALSE'}")
     if gravite: conditions.append(f"i.gravite='{gravite}'")
     where = "WHERE " + " AND ".join(conditions) if conditions else ""
+    
     return execute_query(f"""
         SELECT DISTINCT i.id, i.type, i.description, i.gravite,
                i.date_incident, i.resolu, i.cout_reparation,
@@ -217,7 +219,8 @@ def get_incidents(resolu: Optional[bool] = None, gravite: Optional[str] = None):
 @app.get("/api/lignes")
 def get_lignes():
     return execute_query("""
-        SELECT l.*, COALESCE(AVG(ta.prix), 0) AS tarif_moyen
+        SELECT l.id, l.code, l.nom, l.origine, l.destination, l.distance_km, l.actif,
+               COALESCE(AVG(ta.prix), 0) AS tarif_moyen
         FROM lignes l
         LEFT JOIN tarifs ta ON l.id = ta.ligne_id
         GROUP BY l.id
